@@ -12,46 +12,70 @@
             height: 100vh;
             background-color: #f3f2ef;
         }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
         .card {
             width: 400px;
             border-radius: 12px;
             padding: 30px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
         }
-        .btn-primary {
-            width: 100%;
-            border-radius: 25px;
+
+        .dark-mode .card {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
         }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .alternative-login {
-            text-align: center;
-            margin: 15px 0;
-            font-weight: bold;
-            color: #666;
+
+        .toggle-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
         }
     </style>
 </head>
 <body>
+    <div class="toggle-container form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+    </div>
+
     <div class="card">
         <h3 class="text-center mb-4">Register</h3>
-       
-
         <form method="POST">
-            <div class="input-group">
+            <div class="mb-3">
                 <input type="email" name="email" placeholder="Email" class="form-control" required>
             </div>
-            <div class="input-group">
+            <div class="mb-3">
                 <input type="password" name="password" placeholder="Password" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>
-
         <div class="text-center mt-3">
             <a href="{{ url_for('auth.login_page') }}">Already have an account? Login here</a>
         </div>
-
     </div>
+
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        function applyTheme() {
+            const theme = localStorage.getItem('theme');
+            body.classList.toggle('dark-mode', theme === 'dark');
+            darkModeToggle.checked = theme === 'dark';
+        }
+
+        darkModeToggle.addEventListener('change', () => {
+            localStorage.setItem('theme', darkModeToggle.checked ? 'dark' : 'light');
+            applyTheme();
+        });
+
+        applyTheme();
+    </script>
 </body>
 </html>
